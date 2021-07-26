@@ -25,6 +25,11 @@
 
 <script>
 export default {
+  middleware({ $cookies, redirect }) {
+    if($cookies.get('jwt')) {
+      return redirect('/dashboard')
+    }
+  },
   data() {
     return {
       user: {
