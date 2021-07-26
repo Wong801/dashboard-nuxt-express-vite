@@ -3,7 +3,7 @@
     <header class="w-full px-6 py-2 bg-lightGrey">
       <h1 class="text-lg text-center font-semibold">Wong801 Portfolio</h1>
     </header>
-      <nuxt-link v-if="$route.fullPath !== '/'" to="/">Back to home</nuxt-link>
+    <nuxt-link v-if="$route.fullPath !== '/'" to="/" class="underline px-4">Back to home</nuxt-link>
     <Nuxt />
     <footer class="w-full bottom-0 fixed">
       <div class="text-center">

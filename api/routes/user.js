@@ -91,7 +91,7 @@ router.post('/login', upload.none(), async (req, res) => {
       } else {
         // encode token
         const token = jwt.sign({
-          exp: Math.floor(Date.now() / 1000) + (60 * 60),
+          exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
           id: user._id,
           username: user.username
         }, privateKey)
@@ -121,7 +121,7 @@ router.post('/login', upload.none(), async (req, res) => {
     } else {
       // encode token
       const token = jwt.sign({
-        exp: Math.floor(Date.now() / 1000) + (60 * 60),
+        exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
         id: user._id,
         username: user.username
       }, privateKey)
@@ -140,6 +140,24 @@ router.post('/login', upload.none(), async (req, res) => {
       })
     }
   }
+})
+
+// get data
+router.post('/getUser', upload.none(), async (req, res) => {
+  const users = await loadUserCollection();
+  const token = req.headers.authorization.split(' ');
+  const decoded = jwt.verify(token[1], privateKey);
+  const user = await users.find({ _id: new mongodb.ObjectId(decoded.id) }).toArray()
+  const data = {
+    firstName: user[0].firstName,
+    lastName: user[0].lastName,
+    username: user[0].username,
+    email: user[0].email
+  }
+  return res.status(200).json({
+    'success': true,
+    data
+  })
 })
 
 // logout

@@ -7,7 +7,7 @@
         <input v-model="user.username" type="text" class="border">
         <label>Password:</label>
         <input v-model="user.password" type="password" class="border">
-        <button class="bg-lightGrey hover:bg-darkGrey my-4 rounded-sm font-semibold" @click="handleLogin">Login</button>
+        <button class="bg-lightGrey hover:bg-darkGrey my-4 rounded-sm font-semibold" @click="handleLogin">{{ isLoading ? 'Logging in' : 'Login' }}</button>
         <span>Don't have account? <nuxt-link to="/register">Register</nuxt-link></span>
       </div>
     </div>
@@ -16,27 +16,43 @@
 
 <script>
 export default {
+  middleware({ $cookies, redirect }) {
+    if($cookies.get('jwt')) {
+      return redirect('/dashboard')
+    }
+  },
   data() {
     return {
       user: {
         username: '',
         password: ''
-      }
+      },
+      isLoading: false
     }
   },
   methods: {
     handleLogin() {
+      this.isLoading = true
       if(!this.user.username) {
         this.$toast.error('username/email cannot be empty!')
+        this.isLoading = false
       } else if(!this.user.password) {
         this.$toast.error('password cannot be empty!')
+        this.isLoading = false
       } else {
-        this.$axios.post('/api/user/login', this.user)
-          .then(res =>{
-            this.$cookies.set('jwt', res.data.token)
+        this.$store.dispatch('api/user/login', this.user)
+          .then(res => {
+            this.$cookies.set('jwt', res.data.token, {
+              maxAge: 60 * 60 * 24
+            })
+            this.$router.push('/dashboard')
             this.$toast.success(res.data.msg)
+            this.isLoading = false
           })
-          .catch(err => this.$toast.error(err.response.data.msg));
+          .catch(err => {
+            this.$toast.error(err.msg)
+            this.isLoading = false
+          })
       }
     }
   }
