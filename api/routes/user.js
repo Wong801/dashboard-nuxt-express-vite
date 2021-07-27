@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const mongodb = require('mongodb');
+const { ObjectId } = require('mongodb');
 const multer = require('multer');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -7,7 +7,7 @@ const { loadUserCollection } = require('../database/users');
 
 const upload = multer();
 const router = Router();
-const privateKey = 'XkYGf3ucFBRF41kM1TtA1FmHSoERraae';
+const privateKey = process.env.PRIVATE_KEY;
 
 // register
 router.post('/register', upload.none(), async (req, res) => {
@@ -147,12 +147,13 @@ router.post('/getUser', upload.none(), async (req, res) => {
   const users = await loadUserCollection();
   const token = req.headers.authorization.split(' ');
   const decoded = jwt.verify(token[1], privateKey);
-  const user = await users.find({ _id: new mongodb.ObjectId(decoded.id) }).toArray()
+  const user = await users.findOne({ _id: new ObjectId(decoded.id) })
   const data = {
-    firstName: user[0].firstName,
-    lastName: user[0].lastName,
-    username: user[0].username,
-    email: user[0].email
+    id: user._id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    username: user.username,
+    email: user.email
   }
   return res.status(200).json({
     'success': true,
@@ -166,7 +167,7 @@ router.post('/logout', upload.none(), async (req, res) => {
   const token = req.headers.authorization.split(' ');
   const decoded = jwt.verify(token[1], privateKey);
   await users.updateOne(
-    { _id: new mongodb.ObjectId(decoded.id) },
+    { _id: new ObjectId(decoded.id) },
     {
       $set: {
         isLoggedIn: false

@@ -8,8 +8,10 @@ app.use(urlencoded({ extended: false }));
 app.use(json())
 
 const user = require('./routes/user');
+const post = require('./routes/post');
 
-app.use('/user', user)
+app.use('/user', user);
+app.use('/post', post);
 
 module.exports = app
 
