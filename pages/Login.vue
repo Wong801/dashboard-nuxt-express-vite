@@ -4,9 +4,9 @@
     <div class="absolute inset-1/4">
       <div class="flex flex-col w-max mx-auto">
         <label>Username/Email:</label>
-        <input v-model="user.username" type="text" class="border">
+        <input v-model="user.username" type="text" class="border" @keyup.enter="handleLogin">
         <label>Password:</label>
-        <input v-model="user.password" type="password" class="border">
+        <input v-model="user.password" type="password" class="border" @keyup.enter="handleLogin">
         <button class="bg-lightGrey hover:bg-darkGrey my-4 rounded-sm font-semibold" @click="handleLogin">{{ isLoading ? 'Logging in' : 'Login' }}</button>
         <span>Don't have account? <nuxt-link to="/register">Register</nuxt-link></span>
       </div>

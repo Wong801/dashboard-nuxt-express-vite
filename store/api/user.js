@@ -11,6 +11,17 @@ export const mutations = {
 }
 
 export const actions = {
+  register({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      this.$axios.post(user('register'), payload)
+        .then(res => {
+          resolve(res)
+        })
+        .catch(err => {
+          reject(err.response.data)
+        })
+    })
+  },
   login({ commit }, payload) {
     return new Promise((resolve, reject) => {
       this.$axios.post(user('login'), payload)
