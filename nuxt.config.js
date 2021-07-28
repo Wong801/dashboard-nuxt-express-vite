@@ -65,5 +65,7 @@ export default {
   // Vite Configuration https://vite.nuxtjs.org/getting-started/config
   vite: {
     ssr: true
-  }
+  },
+
+  target: 'server'
 }
