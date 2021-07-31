@@ -57,7 +57,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseUrl: window.location.origin,
+    baseUrl: 'https://wong801-portfolio.herokuapp.com/api',
     post: {
       'content-type': 'application/x-www-form-urlencoded'
     }
