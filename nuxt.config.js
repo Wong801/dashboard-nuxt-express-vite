@@ -56,7 +56,12 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseUrl: window.location.origin,
+    post: {
+      'content-type': 'application/x-www-form-urlencoded'
+    }
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
