@@ -56,7 +56,12 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseUrl: 'https://wong801-portfolio.herokuapp.com/api',
+    post: {
+      'content-type': 'application/x-www-form-urlencoded'
+    }
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
@@ -66,6 +71,4 @@ export default {
   vite: {
     ssr: true
   },
-
-  target: 'server'
 }
