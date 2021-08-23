@@ -90,8 +90,9 @@ router.post('/login', upload.none(), async (req, res) => {
         })
       } else {
         // encode token
+        const exp = 60 * 60 * 24
         const token = jwt.sign({
-          exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+          exp: Math.floor(Date.now() / 1000) + exp,
           id: user._id,
           username: user.username
         }, privateKey)
@@ -106,6 +107,7 @@ router.post('/login', upload.none(), async (req, res) => {
         return res.status(200).json({
           'success': true,
           token,
+          exp,
           'msg': `Welcome, ${user.username} ^^.`
         })
       }
@@ -120,8 +122,9 @@ router.post('/login', upload.none(), async (req, res) => {
       })
     } else {
       // encode token
+      const exp = 60 * 60 * 24
       const token = jwt.sign({
-        exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+        exp: Math.floor(Date.now() / 1000) + exp,
         id: user._id,
         username: user.username
       }, privateKey)
@@ -136,6 +139,7 @@ router.post('/login', upload.none(), async (req, res) => {
       return res.status(200).json({
         'success': true,
         token,
+        exp,
         'msg': `welcome, ${user.username} ^^.`
       })
     }

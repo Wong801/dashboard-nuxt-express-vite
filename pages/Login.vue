@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="text-4xl font-bold text-center my-16">Login</h1>
-    <div class="absolute inset-1/4">
+    <div class="margin">
       <div class="flex flex-col w-max mx-auto">
         <label>Username/Email:</label>
         <input v-model="user.username" type="text" class="border" @keyup.enter="handleLogin">
@@ -43,7 +43,7 @@ export default {
         this.$store.dispatch('api/user/login', this.user)
           .then(res => {
             this.$cookies.set('jwt', res.data.token, {
-              maxAge: 60 * 60 * 24
+              maxAge: res.data.exp
             })
             this.$router.push('/dashboard')
             this.$toast.success(res.data.msg)
@@ -59,6 +59,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.margin {
+  margin: 10%
+}
 </style>

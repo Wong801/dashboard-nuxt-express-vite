@@ -1,19 +1,24 @@
 <template>
-  <div v-if="user">
-    <div class="flex justify-end px-4 gap-x-2">
+  <div>
+    <div v-if="user" class="flex justify-end px-4 gap-x-2">
       <p>Welcome <nuxt-link to="/dashboard/profile" class="font-bold">{{ user.username }}</nuxt-link>,</p>
       <button class="hover:underline" @click="handleLogout">logout</button>
     </div>
     <div class="px-10 my-10">
       <div class="border-b">
         <div>
-          <textarea v-model="content" rows="5" class="border border-darkGrey w-full whitespace-pre-wrap p-2"></textarea>
+          <textarea v-model="content" rows="5" class="border border-darkGrey w-full whitespace-pre-wrap p-2 bg-white bg-opacity-50 focus:bg-opacity-90 focus:outline-none"></textarea>
           <div class="flex justify-end">
             <button class="my-4 p-2 bg-lightGrey rounded-md" @click="uploadPost">Create Post</button>
           </div>
         </div>
       </div>
-      <Post v-for="post in posts" :key="post._id" :post="post" />
+      <div v-if="posts">
+        <Post v-for="post in posts" :key="post._id" :post="post" />
+      </div>
+      <div v-else>
+        <p>Getting data...</p>
+      </div>
     </div>
   </div>
 </template>
@@ -35,12 +40,16 @@ export default {
       return this.$store.state.api.user.userInfo
     },
     posts() {
-      return this.$store.state.api.post.posts
+      const posts = this.$store.state.api.post.posts
+      if(posts) {
+        return posts.reverse()
+      }
+      return posts
     }
   },
-  async created() {
-    await this.$store.dispatch('api/user/getUser');
-    await this.$store.dispatch('api/post/getPosts');
+  created() {
+    this.$store.dispatch('api/user/getUser');
+    this.$store.dispatch('api/post/getPosts');
   },
   methods: {
     handleLogout() {
