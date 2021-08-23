@@ -1,5 +1,5 @@
 <template>
-  <div class="my-2 w-full border border-darkGrey rounded-md p-4">
+  <div class="my-2 w-full border border-darkGrey rounded-md p-4 bg-white bg-opacity-80">
     <div class="border-b flex justify-between">
       <div>
         <h4>{{post.author}}</h4>

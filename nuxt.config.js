@@ -17,8 +17,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-  ],
+  css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
@@ -30,7 +29,7 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://vite.nuxtjs.org/
-    // 'nuxt-vite'
+    'nuxt-vite',
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/tailwindcss
@@ -57,7 +56,8 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseUrl: 'https://wong801-portfolio.herokuapp.com/api',
+    // baseUrl: 'https://wong801-portfolio.herokuapp.com/api',
+    baseUrl: 'http://localhost:3000/api',
     post: {
       'content-type': 'application/x-www-form-urlencoded'
     }
@@ -69,6 +69,6 @@ export default {
 
   // Vite Configuration https://vite.nuxtjs.org/getting-started/config
   vite: {
-    ssr: true
+    ssr: true,
   },
 }
