@@ -40,14 +40,17 @@
         v-if="showMenu"
         class="py-4 px-10 w-1/5 z-30 bg-white h-full slide-in-left fixed"
       >
-        <div class="sticky top-0 h-full flex flex-col">
+        <div class="sticky top-0 h-full flex flex-col text-center gap-y-6">
+          <nuxt-link to="/" class="border-b py-1"> Home </nuxt-link>
           <div
             v-if="!$cookies.get('jwt')"
             class="flex flex-col gap-y-6 text-center"
           >
-            <nuxt-link to="/" class="border-b py-1"> Home </nuxt-link>
             <nuxt-link to="/login" class="border-b py-1"> Login </nuxt-link>
             <nuxt-link to="/register" class="border-b py-1"> Register </nuxt-link>
+          </div>
+          <div v-else>
+
           </div>
           <div class="h-full flex flex-col justify-end">
             <nuxt-link to="/about">About</nuxt-link>
