@@ -26,6 +26,7 @@
     "mongodb": "^4.0.1",
     "multer": "^1.4.2",
     "nuxt": "^2.15.7",
+    "nuxt-compress": "^5.0.0",
     "vue-toastification": "^1.7.11"
   },
   "devDependencies": {

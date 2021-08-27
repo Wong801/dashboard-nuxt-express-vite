@@ -51,12 +51,22 @@ export default {
     ["vue-toastification/nuxt", {
       timeout: 2000,
       draggable: false
-    }]
+    }],
+    ['nuxt-compress']
   ],
+
+  'nuxt-compress':{
+    gzip: {
+      threshold: 8192
+    },
+    brotli: {
+      threshold: 8192
+    }
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    // baseUrl: 'https://wong801-portfolio.herokuapp.com/api',
+    baseUrl: 'https://wong801-portfolio.herokuapp.com/api',
     // baseUrl: 'http://localhost:3000/api',
     post: {
       'content-type': 'application/x-www-form-urlencoded'
@@ -65,6 +75,25 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    terser: true,
+    babel: {
+      plugins: [
+        ['@babel/plugin-proposal-private-methods', { loose: true }]
+      ]
+    },
+    postcss: {
+      plugins: {
+        "postcss-custom-properties": false
+      },
+    },
+    optimization :{
+      splitChunks: {
+        chunks: 'all',
+        automaticNameDelimiter: '.',
+        name: 'test',
+        maxSize : 256000
+      }
+    }
   },
 
   // Vite Configuration https://vite.nuxtjs.org/getting-started/config
