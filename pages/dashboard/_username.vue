@@ -1,16 +1,16 @@
 <template>
-  <div class="w-1/2 mx-auto">
-    <div class="flex justify-between gap-x-2 py-4">
+  <div class="w-full xl:w-1/2 lg:w-4/5 mx-auto px-10">
+    <div class="flex flex-col lg:flex-row justify-center lg:justify-between gap-y-6 gap-x-2 py-4">
       <div class="flex gap-x-4">
-        <input v-model="search.username" type="search" class="border px-1 border-darkGrey focus:outline-none focus:border-black" placeholder="Search for user..." @keyup.enter="findUser">
+        <input v-model="search.username" type="search" class="border px-1 border-darkGrey focus:outline-none focus:border-black w-full lg:w-auto" placeholder="Search for user..." @keyup.enter="findUser">
         <button class="bg-lightGrey focus:outline-none px-2 rounded-md hover:bg-darkGrey" @click="findUser">Search</button>
       </div>
-      <div v-if="user" class="flex">
+      <div v-if="user" class="flex mx-auto lg:mx-0">
         <p>Welcome {{ user.username }},</p>
         <button class="hover:underline" @click="handleLogout">logout</button>
       </div>
     </div>
-    <div v-if="user" class="px-10">
+    <div v-if="user" class="px-10 text-center lg:text-left w-full lg:w-full">
       <h1 class="text-5xl font-bold">{{ user.username }}</h1>
       <p class="text-2xl">{{ user.firstName }} {{ user.lastName }}</p>
     </div>
@@ -65,6 +65,14 @@ export default {
     }
   },
   methods: {
+    handleLogout() {
+      this.$store.dispatch('api/user/logout')
+        .then(res => {
+          this.$cookies.remove('jwt');
+          this.$router.push('/');
+          this.$toast.success(res.data.msg)
+        })
+    },
     getPost(id) {
       this.$store.dispatch('api/post/getPosts', id);
     },

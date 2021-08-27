@@ -1,10 +1,10 @@
 <template>
-  <div class="py-10">
+  <div class="p-10">
     <div class="text-center text-xl p-2 w-max mx-auto bg-white bg-opacity-60 font-semibold">
       <p>{{ time }}</p>
     </div>
-    <div class="flex w-2/5 mx-auto mt-32 items-center gap-x-4">
-      <div class="border-r">
+    <div class="flex flex-col lg:flex-row w-full lg:w-4/5 xl:w-1/2 mx-auto mt-32 items-center gap-x-4">
+      <div class="border-b lg:border-r lg:border-b-0 px-4">
         <h1 class="text-5xl font-bold text-center leading-loose">Welcome to My Simple Project</h1>
       </div>
       <div>

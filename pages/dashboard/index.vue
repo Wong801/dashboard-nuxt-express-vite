@@ -1,12 +1,12 @@
 <template>
   <div :class="posts ? '': 'cursor-wait'">
-    <div class="flex justify-between px-10 gap-x-2 py-4">
+    <div class="flex flex-col lg:flex-row justify-center lg:justify-between px-10 gap-x-2 gap-y-6 py-4">
       <div class="flex gap-x-4">
-        <input v-model="search.username" type="search" class="border px-1 border-darkGrey focus:outline-none focus:border-black" placeholder="Search for user..." @keyup.enter="findUser">
+        <input v-model="search.username" type="search" class="border px-1 border-darkGrey focus:outline-none focus:border-black w-full lg:w-auto" placeholder="Search for user..." @keyup.enter="findUser">
         <button class="bg-lightGrey focus:outline-none px-2 rounded-md hover:bg-darkGrey" @click="findUser">Search</button>
       </div>
-      <div v-if="user" class="flex">
-        <p>Welcome <button class="font-bold" @click="openProfile">{{ user.username }}</button>,</p>
+      <div v-if="user" class="flex ml-auto lg:mx-0">
+        <p class="whitespace-nowrap">Welcome <button class="font-bold" @click="openProfile">{{ user.username }}</button>,</p>
         <button class="hover:underline" @click="handleLogout">logout</button>
       </div>
     </div>
