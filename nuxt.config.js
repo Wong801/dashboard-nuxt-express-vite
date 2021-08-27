@@ -17,8 +17,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-  ],
+  css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
@@ -58,6 +57,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseUrl: 'https://wong801-portfolio.herokuapp.com/api',
+    // baseUrl: 'http://localhost:3000/api',
     post: {
       'content-type': 'application/x-www-form-urlencoded'
     }
@@ -69,6 +69,6 @@ export default {
 
   // Vite Configuration https://vite.nuxtjs.org/getting-started/config
   vite: {
-    ssr: true
+    ssr: true,
   },
 }

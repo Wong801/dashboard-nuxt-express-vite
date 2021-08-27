@@ -1,12 +1,16 @@
 import { user } from '~/lib/misc/endpoint'
 
 export const state = () => ({
-  userInfo: null
+  userInfo: null,
+  searchedUser: null
 })
 
 export const mutations = {
   setUserInfo(state, payload) {
     state.userInfo = payload
+  },
+  setSearchedUser(state, payload) {
+    state.searchedUser = payload
   }
 }
 
@@ -49,16 +53,34 @@ export const actions = {
     })
   },
   async getUser({ commit }) {
-    const res = await this.$axios.$post(user('getUser'), '',{
-      headers: {
-        'Authorization': `Bearer ${this.$cookies.get('jwt')}`
-      }
-    })
-      .catch(err => {
-        return err
+    try {
+      await this.$axios.get(user('get'), {
+        headers: {
+          'Authorization': `Bearer ${this.$cookies.get('jwt')}`
+        }
+      }).then((res) => {
+        commit('setUserInfo', res.data.data)
+        return res.data
       })
-    if(res.success) {
-      await commit('setUserInfo', res.data)
+    } catch(err) {
+      return err
     }
+  },
+  findUser({ commit }, username) {
+    return new Promise((resolve, reject) => {
+      this.$axios.get(user('search'), {
+        params: {
+          username
+        },
+        headers: {
+          'Authorization': `Bearer ${this.$cookies.get('jwt')}`
+        }
+      }).then(res => {
+        commit('setSearchedUser', res.data.data)
+        resolve(res.data)
+      }).catch(err => {
+        reject(err)
+      })
+    })
   }
 }

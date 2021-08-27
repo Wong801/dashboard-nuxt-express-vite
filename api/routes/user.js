@@ -90,8 +90,9 @@ router.post('/login', upload.none(), async (req, res) => {
         })
       } else {
         // encode token
+        const exp = 60 * 60 * 24
         const token = jwt.sign({
-          exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+          exp: Math.floor(Date.now() / 1000) + exp,
           id: user._id,
           username: user.username
         }, privateKey)
@@ -106,6 +107,7 @@ router.post('/login', upload.none(), async (req, res) => {
         return res.status(200).json({
           'success': true,
           token,
+          exp,
           'msg': `Welcome, ${user.username} ^^.`
         })
       }
@@ -120,8 +122,9 @@ router.post('/login', upload.none(), async (req, res) => {
       })
     } else {
       // encode token
+      const exp = 60 * 60 * 24
       const token = jwt.sign({
-        exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+        exp: Math.floor(Date.now() / 1000) + exp,
         id: user._id,
         username: user.username
       }, privateKey)
@@ -136,6 +139,7 @@ router.post('/login', upload.none(), async (req, res) => {
       return res.status(200).json({
         'success': true,
         token,
+        exp,
         'msg': `welcome, ${user.username} ^^.`
       })
     }
@@ -143,7 +147,7 @@ router.post('/login', upload.none(), async (req, res) => {
 })
 
 // get data
-router.post('/getUser', upload.none(), async (req, res) => {
+router.get('/get', upload.none(), async (req, res) => {
   const users = await loadUserCollection();
   const token = req.headers.authorization.split(' ');
   const decoded = jwt.verify(token[1], privateKey);
@@ -178,6 +182,38 @@ router.post('/logout', upload.none(), async (req, res) => {
     'success': true,
     'msg': 'Please come again!'
   })
+})
+
+router.get('/search', async (req, res) => {
+  const users = await loadUserCollection();
+  const token = req.headers.authorization.split(' ');
+  const decoded = jwt.verify(token[1], privateKey);
+  const user = await users.findOne({ _id: new ObjectId(decoded.id) })
+  if(user) {
+    const searchedUser = await users.findOne({ username: req.query.username })
+    if(searchedUser) {
+      return res.status(200).json({
+        success: true,
+        msg: 'user found',
+        data: {
+          username: searchedUser.username,
+          firstName: searchedUser.firstName,
+          lastName: searchedUser.lastName,
+        }
+      })
+    } else {
+      return res.status(200).json({
+        success: false,
+        msg: 'user not found',
+        data: null
+      })
+    }
+  } else {
+    return res.status(400).json({
+      success: false,
+      msg: 'Invalid token'
+    })
+  }
 })
 
 module.exports = router

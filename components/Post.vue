@@ -1,5 +1,5 @@
 <template>
-  <div class="my-2 w-full border border-darkGrey rounded-md p-4">
+  <div class="my-2 w-full border border-darkGrey rounded-md p-4 bg-white bg-opacity-80">
     <div class="border-b flex justify-between">
       <div>
         <h4>{{post.author}}</h4>
@@ -7,9 +7,10 @@
       </div>
       <div class="px-4">
         <span class="self-start cursor-pointer select-none" @click="showMenu = !showMenu">...</span>
-        <div v-if="showMenu" class="border border-darkGrey absolute right-16 bg-white">
+        <div v-if="showMenu" :class="half ? '' : 'right-16'" class="border border-darkGrey absolute bg-white">
           <div v-if="post.created_by === user.id">
             <button class="hover:bg-lightGrey w-full p-2" @click="deletePost(post._id)">Delete</button>
+            <!-- <button class="hover:bg-lightGrey w-full p-2">Comment</button> -->
           </div>
           <div v-else class="w-full p-2">
           </div>
@@ -42,6 +43,10 @@ export default {
           comments: []
         }
       }
+    },
+    half: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

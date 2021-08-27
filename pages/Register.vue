@@ -1,24 +1,36 @@
 <template>
   <div>
-    <h1 class="text-4xl font-bold text-center my-16">Register</h1>
-    <div class="absolute inset-1/4">
-      <div class="flex flex-col w-max mx-auto">
-        <label>Email:</label>
-        <input v-model="user.email" type="email" class="border" @keyup.enter="handleRegister">
-        <label>First Name:</label>
-        <input v-model="user.firstName" type="text" class="border" @keyup.enter="handleRegister">
-        <label>Last Name:</label>
-        <input v-model="user.lastName" type="text" class="border" @keyup.enter="handleRegister">
-        <label>Username:</label>
-        <input v-model="user.username" type="text" class="border" @keyup.enter="handleRegister">
-        <label>Password:</label>
-        <input v-model="user.password" type="password" class="border" @keyup.enter="handleRegister">
-        <label>Confirm Password:</label>
-        <input v-model="passwordConfirm" type="password" class="border" @keyup.enter="handleRegister">
-        <span class="text-xs">{{ passwordConfirm === user.password ? '' : 'Confirm Password does not match' }}</span>
-        <button class="bg-lightGrey hover:bg-darkGrey my-4 rounded-sm font-semibold" @click="handleRegister">Register</button>
-        <span>Already have account? <nuxt-link to="/login">Login</nuxt-link></span>
+    <div class="margin flex flex-col w-max">
+      <h1 class="text-4xl font-bold text-center mb-16">Register</h1>
+      <div class="grid grid-flow-row grid-cols-2 grid-rows-3 gap-y-8 gap-x-4 w-max">
+        <div class="flex flex-col">
+          <label>Email:</label>
+          <input v-model="user.email" type="email" class="border" @keyup.enter="handleRegister">
+        </div>
+        <div class="flex flex-col">
+          <label>First Name:</label>
+          <input v-model="user.firstName" type="text" class="border" @keyup.enter="handleRegister">
+        </div>
+        <div class="flex flex-col">
+          <label>Last Name:</label>
+          <input v-model="user.lastName" type="text" class="border" @keyup.enter="handleRegister">
+        </div>
+        <div class="flex flex-col">
+          <label>Username:</label>
+          <input v-model="user.username" type="text" class="border" @keyup.enter="handleRegister">
+        </div>
+        <div class="flex flex-col">
+          <label>Password:</label>
+          <input v-model="user.password" type="password" class="border" @keyup.enter="handleRegister">
+        </div>
+        <div class="flex flex-col">
+          <label>Confirm Password:</label>
+          <input v-model="passwordConfirm" type="password" class="border" @keyup.enter="handleRegister">
+          <span class="text-xs">{{ passwordConfirm === user.password ? '' : 'Confirm Password does not match' }}</span>
+        </div>
       </div>
+      <button class="bg-lightGrey hover:bg-darkGrey w-max mx-auto my-4 rounded-sm font-semibold px-4 py-2" @click="handleRegister">Register</button>
+      <span class="text-center">Already have account? <nuxt-link to="/login">Login</nuxt-link></span>
     </div>
   </div>
 </template>
@@ -62,6 +74,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.margin {
+  margin: 5%
+}
 </style>
