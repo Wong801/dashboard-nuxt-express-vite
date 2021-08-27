@@ -11,8 +11,11 @@ export const mutations = {
 }
 
 export const actions = {
-  async getPosts({ commit }) {
+  async getPosts({ commit }, username = '') {
     const res = await this.$axios.get(post('get'), {
+      params: {
+        username
+      },
       headers: {
         'Authorization': `Bearer ${this.$cookies.get('jwt')}`
       }

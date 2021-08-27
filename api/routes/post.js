@@ -18,14 +18,21 @@ router.get('/get', upload.none(), async (req, res) => {
     const user = jwt.verify(token[1], privateKey);
     const found = await users.findOne({ _id: new ObjectId(user.id) })
     if(found) {
-      res.status(200).json({
+      const postsData = req.query.username ? await posts.find({ author: req.query.username }).toArray() : await posts.find().toArray()
+      return res.status(200).json({
         'success': true,
-        'data': await posts.find().toArray(),
+        'data': postsData.reverse(),
         'msg': 'success'
+      })
+    } else {
+      return res.status(400).json({
+        'success': false,
+        'data': [],
+        'msg': 'Invalid token.'
       })
     }
   } else {
-    res.status(401).json({
+    return res.status(401).json({
       'success': false,
       'data': [],
       'msg': 'Invalid token.'
@@ -60,7 +67,7 @@ router.post('/create', upload.none(), async (req, res) => {
       })
     }
   } else {
-    res.status(401).json({
+    return res.status(401).json({
       'success': false,
       'msg': 'Invalid token.'
     })
@@ -93,7 +100,7 @@ router.delete('/delete/:id', upload.none(), async (req, res) => {
       })
     }
   } else {
-    res.status(401).json({
+    return res.status(401).json({
       'success': false,
       'msg': 'Invalid token.'
     })

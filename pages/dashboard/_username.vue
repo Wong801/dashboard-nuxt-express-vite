@@ -1,16 +1,20 @@
 <template>
-  <div :class="posts ? '': 'cursor-wait'">
-    <div class="flex justify-between px-10 gap-x-2 py-4">
+  <div class="w-1/2 mx-auto">
+    <div class="flex justify-between gap-x-2 py-4">
       <div class="flex gap-x-4">
         <input v-model="search.username" type="search" class="border px-1 border-darkGrey focus:outline-none focus:border-black" placeholder="Search for user..." @keyup.enter="findUser">
         <button class="bg-lightGrey focus:outline-none px-2 rounded-md hover:bg-darkGrey" @click="findUser">Search</button>
       </div>
       <div v-if="user" class="flex">
-        <p>Welcome <button class="font-bold" @click="openProfile">{{ user.username }}</button>,</p>
+        <p>Welcome {{ user.username }},</p>
         <button class="hover:underline" @click="handleLogout">logout</button>
       </div>
     </div>
-    <div class="px-10 my-10">
+    <div v-if="user" class="px-10">
+      <h1 class="text-5xl font-bold">{{ user.username }}</h1>
+      <p class="text-2xl">{{ user.firstName }} {{ user.lastName }}</p>
+    </div>
+    <div class="my-10">
       <div class="border-b">
         <div>
           <textarea v-model="content" rows="5" class="border border-darkGrey w-full whitespace-pre-wrap p-2 bg-white bg-opacity-50 focus:bg-opacity-90 focus:outline-none"></textarea>
@@ -20,7 +24,7 @@
         </div>
       </div>
       <div v-if="posts">
-        <Post v-for="post in posts" :key="post._id" :post="post" />
+        <Post v-for="post in posts" :key="post._id" :post="post" :half="true" />
       </div>
       <div v-else>
         <p>Getting data...</p>
@@ -52,18 +56,17 @@ export default {
       return this.$store.state.api.post.posts
     }
   },
-  created() {
-    this.$store.dispatch('api/user/getUser');
-    this.$store.dispatch('api/post/getPosts');
+  async created() {
+    if(!this.user) {
+      await this.$store.dispatch('api/user/getUser');
+      await this.$store.dispatch('api/post/getPosts', this.user.username)
+    } else {
+      await this.$store.dispatch('api/post/getPosts', this.user.username)
+    }
   },
   methods: {
-    handleLogout() {
-      this.$store.dispatch('api/user/logout')
-        .then(res => {
-          this.$cookies.remove('jwt');
-          this.$router.push('/');
-          this.$toast.success(res.data.msg)
-        })
+    getPost(id) {
+      this.$store.dispatch('api/post/getPosts', id);
     },
     uploadPost() {
       if(!this.content) {
@@ -82,14 +85,6 @@ export default {
             this.$toast.error(err.msg);
           })
       }
-    },
-    openProfile() {
-      this.$router.push({
-        name: 'dashboard-username',
-        params: {
-          username: this.user.username
-        }
-      })
     },
     findUser() {
       this.$store.commit('helper/search/setSearchParam', this.search.username)
