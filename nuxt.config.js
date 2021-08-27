@@ -54,7 +54,7 @@ export default {
     }],
     ['nuxt-compress']
   ],
-
+  
   'nuxt-compress':{
     gzip: {
       threshold: 8192
@@ -72,14 +72,6 @@ export default {
       'content-type': 'application/x-www-form-urlencoded'
     }
   },
-
-  // proxy: {
-  //   '/api/': {
-  //     target: 'https://wong801-portfolio.herokuapp.com/api',
-  //     pathRewrite: {'^/api': ''},
-  //     changeOrigin: true
-  //   },
-  // },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
