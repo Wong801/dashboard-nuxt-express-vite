@@ -38,7 +38,7 @@
       >
       <div
         v-if="showMenu"
-        class="py-4 px-10 w-1/5 z-30 bg-white h-full slide-in-left fixed"
+        class="py-4 px-10 w-full lg:w-1/5 z-30 bg-white h-full slide-in-left fixed"
       >
         <div class="sticky top-0 h-full flex flex-col text-center gap-y-6">
           <nuxt-link to="/" class="border-b py-1"> Home </nuxt-link>
@@ -101,10 +101,16 @@ export default {
 
 <style scoped>
 .bg-nature {
-  background-image: url('@/static/img/bg-forest.jpg');
-  background-size: 100%;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
+  background: none;
+}
+
+@media only screen and (min-width: 1280px) {
+  .bg-nature {
+    background-image: url('@/static/img/bg-forest.jpg');
+    background-size: 100% auto;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
 }
 
 .nuxt-link-exact-active {
