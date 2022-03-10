@@ -11,7 +11,8 @@ export default {
       { hid: 'description', name: 'description', content: 'Welcome to my simple project :)' },
       { name: 'format-detection', content: 'telephone=no' },
       { name: 'keywords', content: 'wong801, catur, catur satrio, catur satrio wicaksono, wong801 portfolio' },
-      { name: 'author', content: 'Wong801' }
+      { name: 'author', content: 'Wong801' },
+      { name: 'google-site-verification', content: 'VLJtKTlQci8_bpJJ2_EqSjd6oBFi4nwcnIWcSHoIGXU' },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
